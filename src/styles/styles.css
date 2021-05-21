@@ -1,0 +1,829 @@
+:root{
+  --color-text-primary: #24292e;
+  --color-border-primary: #e1e4e8;
+}
+
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body{
+  font-size: 14px;
+  line-height: 1.5;
+  color: rgb(36, 41, 46);
+  background-color: rgb(255, 255, 255);
+  font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;
+}
+.octicon {
+  display: inline-block;
+  overflow: visible ;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+strong{
+  font-weight: 600;
+}
+.avatar-user{
+  vertical-align: middle;
+  border-radius: 50%;
+}
+.user-status-emoji-container{
+  line-height: 1;
+  margin-right: 8px;
+  vertical-align: bottom;
+}
+h1{
+  font-weight: 600;
+  font-size: 32px;
+}
+h3{
+  font-weight: 600;
+  font-size: 20px;
+}
+a {
+  color: #0366d6;
+  text-decoration: none;
+}
+button{
+  background-color: inherit;
+  outline: 0;
+  border: 0;
+}
+
+
+
+
+/* HEADER STYLES */
+header{
+  /* z-index: 32; */
+  padding: 15px 16px 15px 32px;
+  font-size: 14px;
+  line-height: 1.5;
+  background-color: rgb(36, 41, 46);
+  color: rgba(255, 255, 255, 0.7);
+}
+header .header-items-large-screen{
+  display: flex;
+  align-items: center;
+}
+header .header-items-mobile{
+  display: none;
+}
+header .header-item{
+  margin-right: 16px;
+}
+
+header .header-link{
+  font-weight: 600;
+  color: rgb(255, 255, 255);
+  white-space: nowrap;
+  text-decoration: none;
+}
+
+header .header-link:hover{
+  color: hsla(0, 0%, 100%, 0.7);
+}
+
+header svg{
+  fill: rgb(255, 255, 255);
+  vertical-align: middle;
+}
+header svg:hover{
+  fill: hsla(0, 0%, 100%, 0.7);
+}
+/* SEARCH */
+header .header-item.search{
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+} 
+
+header .header-search{
+  position: relative;
+  margin-right: 16px;
+  width: 272px;
+  transition: width 0.2s ease-in-out;
+}
+header .header-search:focus-within{
+  max-width: 544px;
+  width: 100%;
+} 
+
+header .header-search-input{
+  min-height: 28px;
+  display: table-cell;
+  width: 100%;
+  padding-top: 0;
+  padding-bottom: 0;
+  font-size: inherit;
+  color: inherit;
+  background: none;
+  border: 0;
+  box-shadow: none;
+  border-radius: 6px;
+  outline: none;
+  padding: 4px 12px;
+  line-height: 20px;
+  border: 1px solid rgba(225,228,232,.2);
+  font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;
+}
+header .header-search-key-slash{
+  position: absolute;
+  top: 5px;
+  right: 1px;
+  margin-right: 8px;
+}
+header .header-search-input:focus{
+  /* border-color: #0366d6; */
+  /* background-color: rgba(225,228,232,.2); */
+  background-color: #FAFBFC;
+  color: var(--color-text-primary);
+}
+header .header-search-input:focus + label{
+  display: none;
+}
+
+header .header-search-input::placeholder { 
+  color: inherit;
+}
+
+/* NAV */
+header nav{
+  display: flex;
+}
+header nav a{
+  margin-right: 16px;
+}
+header nav a span:nth-child(2){
+  display: none;
+}
+
+/* NOTIFICATION */
+header .notification{
+  margin-top: 3px;
+  /* display: flex;
+  align-items: center; */
+}
+
+/* DROPDOWN */
+
+header .header-item.dropdown{
+  position: relative;
+}
+
+header details > summary {
+  list-style: none;
+  cursor: pointer;
+}
+header .icon{
+  display: inline-block;
+  width: 0;
+  height: 0;
+  vertical-align: middle;
+  content: "";
+  border-top-style: solid;
+  border-top-width: 4px;
+  border-right: 4px solid transparent;
+  border-bottom: 0 solid transparent;
+  border-left: 4px solid transparent;
+}
+
+header details-menu{
+  position: absolute;
+  top: 25px;
+  left: -132px;
+  width: 160px;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  margin-top: 2px;
+  list-style: none;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid #e1e4e8;
+  border-radius: 6px;
+  /* box-shadow: 0 8px 24px rgba(149, 157, 165 0.2); */
+  box-shadow: rgba(149, 157, 165, 0.3) 0px 8px 24px 0px;
+
+}
+
+header details-menu::before{
+  position: absolute;
+  display: inline-block;
+  content: "";
+  top: -8px;
+  right: 9px;
+  /* left: auto; */
+  border-bottom: 8px solid #fff;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  
+}
+
+header .dropdown-item{
+  display: block;
+  padding: 4px 8px 4px 16px;
+  overflow: hidden;
+  color: var(--color-text-primary);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+header .dropdown-item:hover{
+  color: #fff;
+  text-decoration: none;
+  background-color: #0366d6;
+  outline: none;
+}
+
+/* USER */
+
+header .header-item.user{
+  position: relative;
+}
+header .header-item.user details-menu{
+  padding: 4px 0;
+  top: 26px;
+  left: -148px;
+  width: 180px;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px 0px;
+}
+header .header-item.user details-menu::before{
+  top: -8px;
+  right: 9px;
+}
+
+header .header-nav-current-user{
+  width: 100%;
+  cursor: pointer;
+  padding: 4px 16px 0 16px;
+}
+header .header-item.user .user-profile-link{
+  /* padding-top: 100px;  */
+  /* padding-bottom: 8px;  */
+  color: var(--color-text-primary);
+}
+header .dropdown-divider {
+  display: block;
+  height: 0;
+  margin: 8px 0;
+  border-top: 1px solid var(--color-border-primary);
+}
+header .user-status-container-wrapper{
+  word-break: break-word;
+  word-wrap: break-word;
+  white-space: normal;
+  padding: 0 16px;
+  line-height: 1.25;
+  font-size: 12px;
+  /* margin-bottom: 5px; */
+}
+header .user-status-container{
+  border-radius: 6px;
+  padding: 4px 8px 5px 8px;
+  margin-top: 8px;
+  border: 1px solid var(--color-border-primary);
+}
+header .user-status{
+  display: flex;
+  align-items: center;
+}
+header .user-status-header{
+  line-height: 1.25;
+  font-size: 12px;
+  border-radius: 50%;
+}
+
+header .user-status-emoji-container svg{
+  fill: rgb(88, 96, 105);
+}
+
+header .user-status-message-wrapper{
+  color: var(--color-text-primary);
+  line-height: 20px;
+  font-size: 12px;
+}
+header .user-status:hover .user-status-message-wrapper{
+  color: rgb(3, 102, 214);
+}
+header .user-status:hover svg{
+  fill: rgb(3, 102, 214);
+
+}
+
+
+/* MAIN CONTENT */
+
+/* CARD */
+main .main-header{
+  margin-top: 24px;
+  border-bottom: 1px solid #e1e4e8;
+}
+main .main-header.large.sticky{
+  position: fixed;
+  width: 100%;
+  background-color: white;
+  top: -24px;
+  z-index: 2;
+}
+
+main .header-container{
+  max-width: 1280px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 32px;
+  display: flex;
+  flex-wrap: wrap;
+}
+main .main-header.mobile {
+  display: none;
+}
+
+/*  */
+
+main .user-profile-sticky-bar{
+  display: flex;
+  visibility: hidden;
+  padding: 0 16px;
+  width: 25%;
+  /* transition: visibility .2s ease; */
+}
+main .user-profile-mini-card{
+  position: relative;
+  top: 1px;
+  /* z-index: 110; */
+  /* height: 54px; */
+  display: flex;
+  align-items: center;
+}
+main .user-profile-mini-avatar{
+  padding-right: 8px;
+}
+main .user-profile-mini-avatar img{
+  border-radius: 50%;
+}
+
+
+
+/* TABS */
+main .tabs{
+  width: 75%;
+  padding: 0 16px;
+  padding-top: 8px;
+}
+main nav{
+  display: flex;
+}
+
+main nav .underline-nav-item{
+  padding: 8px 16px;
+  font-size: 14px;
+  line-height: 30px;
+  color: var(--color-text-primary);
+  text-align: center;
+  white-space: nowrap;
+  background-color: initial;
+  border: 0;
+  border-bottom: 2px solid #f9826c;
+  font-weight: 600;
+  outline: 1px dotted transparent;
+  outline-offset: -1px;
+}
+
+main nav .UnderlineNav-octicon {
+  margin-right: 4px;
+}
+.counter{
+  display: inline-block;
+  min-width: 20px;
+  padding: 0 6px;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 18px;
+  text-align: center;
+  border: 1px solid transparent;
+  border-radius: 2em;
+  margin-left: 4px;
+  color: var(--color-text-primary);
+  background-color: rgba(209, 213, 218, 0.5)
+}
+
+
+/* CONTENT */
+main .main-header.large.sticky + .content-container{
+  margin-top:80px;
+}
+main .content-container{
+  max-width: 1280px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 16px;
+  display: flex;
+  flex-wrap: wrap;
+}
+main .user-details{
+  padding: 0 16px;
+  position: relative;
+  top: -32px;
+  width: 25%;
+}
+main .user-image-name{
+  display: flex;
+  flex-direction: column;
+  /* align-items: center; */
+  justify-content: center;
+}
+main .user-image-name .user-image{
+  position: relative;
+  z-index: 3;
+}
+main .user-image-name img{
+  width: 100%;
+  height: 100%;
+  border: 1px solid var(--color-border-primary);
+}
+
+main .user-status-circle-badge {
+  position: absolute;
+  bottom: 32px;
+  right: 2px;
+  background-color: #fff;
+  border: 1px solid var(--color-border-primary);
+  border-radius: 50%;
+  box-shadow: 0 1px 0 rgba(27, 31, 35, 0.04);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 38px;
+  height: 38px;
+}
+
+main .user-status-circle-badge.mobile{
+  display: none;
+}
+
+main .user-status-emoji-container{
+  color: rgb(88, 96, 105);
+  margin-right: 0;
+}
+
+main .user-names{
+  padding-top: 16px;
+  padding-bottom: 16px;
+}
+
+main .user-names .name{
+  display: block;
+  font-size: 26px;
+  line-height: 1.25;
+}
+
+main .user-names .nickname{
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 300;
+  line-height: 24px;
+  color: #586069;
+}
+main .user-bio{
+  font-size: 16px;
+  margin-bottom: 16px;
+}
+
+/* TAB DETAILS */
+main .tab-details{
+  padding: 0 16px;
+  width: 75%;
+}
+
+main .search-repository{
+  padding-top: 16px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #e1e4e8;
+
+}
+main .search-repository input{
+
+  width: 100%;
+  padding: 5px 12px;
+  font-size: 14px;
+  line-height: 20px;
+  color: #24292e;
+  vertical-align: middle;
+  background-color: #fff;
+  background-repeat: no-repeat;
+  background-position: right 8px center;
+  border: 1px solid #e1e4e8;
+  border-radius: 6px;
+  outline: none;
+  box-shadow: inset 0 1px 0 rgba(225, 228, 232, 0.2);
+  font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;
+
+}
+main .search-repository input:focus{
+  border-color: #0366d6;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(3, 102, 214, 0.3);
+}
+
+main ul{
+  list-style-type: none;
+}
+
+main .user-repositories-list li{
+  padding-top: 24px!important;
+  padding-bottom: 24px!important;
+  border-bottom: 1px solid #e1e4e8;
+  display: flex;
+}
+
+main .user-repositories-list .repository-details{
+  width: 75%;
+}
+main .user-repositories-list .repository-details h3{
+  margin-bottom: 4px;
+}
+main span.forked-from{
+  display: inline-block;
+  font-size: 12px;
+  margin-bottom: 4px;
+  color: #586069;
+}
+main .forked-from a{
+  color: #586069;
+}
+main .user-repositories-list .repository-details .description{
+  /* margin-top: 4px; */
+  width: 75%;
+  padding-right: 24px;
+  margin-bottom: 8px;
+  color: rgb(88, 96, 105);
+}
+main .user-repositories-list .repo-language{
+  display: inline-block;
+  margin-top: 8px;
+  font-size: 12px;
+  margin-right: 16px;
+}
+main .language-color{
+  position: relative;
+  top: 1px;
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border: 1px solid rgba(27, 31, 35, 0.01);
+  border-radius: 50%;
+}
+main .star-count, main .fork-count {
+  color: #586069;
+  margin-right: 16px;
+}
+main .forked-from a:hover, main .star-count:hover, main .fork-count:hover{
+  color: #0366d6;
+}
+main .language-and-timestamp{
+  color: rgb(88, 96, 105);
+  font-size: 12px;
+  line-height: 18px;
+  margin-top: 8px;
+}
+
+main .user-repositories-list .repository-star{
+  width: 25%;
+  text-align: right;
+}
+main .repository-star .btn{
+  font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji ;
+  margin-top: 12px;
+  font-weight: 500;
+  background-color: rgb(250, 251, 252);
+  color: rgb(36, 41, 46);
+  padding: 3px 12px;
+  font-size: 12px;
+  line-height: 20px;
+  cursor: pointer;
+  border: 1px solid rgba(27, 31, 35, 0.15);
+  border-radius: 6px;
+  box-shadow:  rgba(27, 31, 35, 0.04) 0px 1px 0px 0px, hsla(0, 0, 100%, 0.25);
+  transition: all .1s ease;
+}
+main .user-repositories-list .btn svg{
+  margin-right: 4px;
+  fill: rgb(106, 115, 125);
+}
+
+main .repository-star .btn:hover{
+  background-color: rgb(243, 244, 246);
+  border-color: rgba(27, 31, 35, 0.15);
+  transition: all .1s ease;
+}
+
+
+@media (max-width: 1199.98px) {
+  header {
+    padding: 15px 16px 15px 32px;
+  }
+  main .main-header{
+    margin-top: 16px;
+  }
+}
+
+@media (max-width: 1011px) { 
+  header {
+    padding: 15px 8px 15px 24px;
+  }
+  header nav a span:nth-child(1){
+    display: none;
+  }
+  header nav a span:nth-child(2){
+    display: block;
+  }
+  main .main-header{
+    margin-top: 24px;
+  }
+  
+  main .user-profile-sticky-bar, main .tabs, main .user-details, main .tab-details{
+    padding: 0 8px;
+  }
+  main .user-repositories-list .repository-details{
+    width: 83.33333%;
+  }
+  main .user-repositories-list .repository-star{
+    width: 16.66667%;
+  }
+ }
+
+@media (max-width: 991.98px) { 
+
+  main .user-profile-sticky-bar, main .tabs, main .user-details, main .tab-details{
+    padding: 0 8px;
+  }
+  main .user-profile-sticky-bar, main .user-details{
+    width: 25%;
+  }
+  main .tabs, main .tab-details{
+    width: 75%;
+  }
+  main .user-status-circle-badge{
+    bottom: 34px;
+    right: 0px;
+  }
+ }
+
+
+@media (max-width: 767.98px) {
+  header{
+    padding: 16px 16px 16px 16px;
+  }
+  header .header-items-large-screen{
+    display: none;
+  }
+  header .header-items-mobile{
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  header .header-items-mobile .header-link{
+    background-color: transparent;
+  }
+  header .header-items-mobile .logo-mobile{
+    flex-grow: 1;
+    text-align: center;
+  }
+  header .header-item.notification{
+    margin-right: 0;
+  }
+  header .header-item.mobile-nav-dropdown{
+    width: 100%;
+    margin-top: 16px;
+    margin-right: 0;
+    display: none;
+  }
+  header .header-item.mobile-nav-dropdown.active{
+    display: block;
+  }
+  header .header-item.mobile-nav-dropdown .mobile-header-search{
+    margin-bottom: 16px;
+  }
+
+  header .mobile-nav-dropdown .mobile-nav{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-self: stretch;
+  }
+  header .mobile-nav-dropdown .mobile-nav a{
+    display: block;
+    padding: 8px 0;
+    border-top: 1px solid hsla(0, 0%, 100%, 0.15);
+    
+  }
+  header .mobile-nav-dropdown .mobile-nav button{
+    font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;
+  }
+
+
+  /*  */
+  main .header-container{
+    padding: 0 8px;
+  }
+  main .main-header.mobile.sticky{
+  position: fixed;
+  width: 100%;
+  background-color: white;
+  top: -24px;
+  /* top: -24px; */
+  z-index: 2;
+  }
+  main .main-header.large.sticky + .content-container{
+    margin-top: 0px;
+  }
+  main .main-header.large{
+    display: none;
+  }
+  main .main-header.mobile{
+    margin-left: -2%;
+    display: block;
+    width: 100vw;
+    /* overflow-x: hidden; */
+  }
+  main .user-profile-sticky-bar{
+    display: none;
+  }
+  main .tabs.mobile{
+    display: block;
+  }
+  main nav .underline-nav-item{
+    padding: 4px 16px;
+  }
+  main .content-container{
+    padding: 0 16px;
+  }
+  main .user-details{
+    position: static;
+    padding: 0;
+    width: 100%;
+  }
+  main .user-image-name{
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    margin-bottom: 24px;
+  }
+  main .user-image-name .user-image{
+    margin-right: 16px;
+    width: 16.66667%;
+  }
+  main .user-image-name img{
+    margin-right: 16px;
+    width: 100%;
+    /* width: 118.65px;
+    height: 118.65px; */
+  }
+  main .user-image-name .user-status-circle-badge{
+    display: none;
+  }
+  
+  main .user-status-circle-badge{
+    position: static;
+    width: 100%;
+    border-radius: 6px;
+    margin-top: 8px;
+    justify-content: flex-start;
+    padding: 4px 8px;
+  }
+  main .user-status-circle-badge.mobile{
+    font-size: 12px;
+    margin-bottom: 8px;
+    display: block;
+    display: flex;
+    height: 33px;
+  }
+  main .user-status-emoji-container{
+    margin-top: -2px;
+    margin-right: 8px;
+  }
+  main .user-status-circle-badge.mobile span{
+    margin-top: -2px;
+  }
+  main .tab-details{
+    width: 100%;
+  }
+ }
+
+@media (max-width: 575.98px) { 
+  main .content-container{
+    padding: 0 8px;
+  }
+  main .repository-star {
+    align-self: center;
+  }
+  main .repository-star .btn{
+    width: max-content ;
+    margin-left: -10px;
+    margin-top: 0;
+  }
+ }
+
+
