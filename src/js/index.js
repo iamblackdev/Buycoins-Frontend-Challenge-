@@ -1,9 +1,5 @@
 
-// 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
 
-
-
-//
 
 // GET THE BODY ELELMENT
 let body = document.querySelector('body')
@@ -258,10 +254,6 @@ let updatedAt, humanTime,
           `
       ))
     
-        
-      // updatedAt = new Date(fetchedData.data.repositoryOwner.repositories.edges[2].node.updatedAt)
-      
-      // getHumanTime(howLongAgo)
 
 
     }).catch(err => {
@@ -282,7 +274,6 @@ let getHumanTime = function (vlaue) {
   // GETTING CURRENT MONTHS USED FOR EVALUATION
   let currentMonth = new Date().getMonth()
 
-  // updatedAt = new Date(fetchedData.data.repositoryOwner.repositories.edges[2].node.updatedAt)
 
 
   updatedAt = new Date(vlaue)
