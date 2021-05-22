@@ -1,104 +1,14 @@
+import { token } from './token.js'
 
 
-
-// GET THE BODY ELELMENT
-let body = document.querySelector('body')
-
-// get the details ELEMENT
-let details = document.querySelectorAll('details')
-
-
-// ONCLICK OF THE BODY SET ALLL DETAILS OPEN ATTRIBUTE TO FALSE
-body.addEventListener('click', () => { 
-  details.forEach(e => e.open = false)
-})
-
-
-// SCROLL EVENT ON WINDOWS 
-window.onscroll = function() { stickyElement() };
-
-// GET THE HEADER CLASS ON LARGE SCREEN
-let headerLarge = document.querySelector(".main-header.large")
-
-// GET THE HEADER CLASS ON MOBILE SCREEN
-let headerMobile = document.querySelector(".main-header.mobile");
-
-
-//GET THE USERNAME CLASS
-let nickname = document.querySelector(".nickname");
-
-// GET THE USERPROFILE CARD
-let userProfileSticky = document.querySelector(".user-profile-sticky-bar");
-
-
-// FUNCTION FOR STICKY ELMENTS
-function stickyElement() {
-
-
-  // FOR STICKY HEADER ON LARGE SCREEN
-
-  // GET THE HEADER TAG
-  let header = document.querySelector('header').getBoundingClientRect();
-
-
-
-  // CHECK IF THE HEADER IS OFF SCREEN
-  if (header.bottom < -19) {
-    
-    // SET THE MAIN HEADER STICKY
-    headerLarge.classList.add("sticky");
-  } else {
-
-    // REMOVES THE MAIN HEADER STICKY
-    headerLarge.classList.remove("sticky");
-  }
-
-
-  // FOR STICKY HEADER ON MOBILE SCREEN
-
-  // GET THE BOUNDING CLIENT OF TH MAIN HEADER ON MOBILE
-  let stickyHeaderMobile = document.querySelector(".main-header.mobile").getBoundingClientRect();
-
-  // GET THE USER DETAILS ABOVE THE  MAIN HEADER MOBILE
-  let userDetails = document.querySelector(".user-details").getBoundingClientRect();
-
-  // CHECK IF THE MOBILE MAIN HEADER IS AT THE TOP
-  if (stickyHeaderMobile.top < 1) {
-
-    // ADD STICKY CLASS FOR MAIN HEADER MOBILE
-    headerMobile.classList.add("sticky");
-  }
-  if (userDetails.bottom > -19) {
-    headerMobile.classList.remove("sticky"); 
-  }
-   
-  
-
-  // FOR STICKY CARD
-
-  // GET THE USERNAME ELEMENT 
-  let rect = document.querySelector('.nickname').getBoundingClientRect();
-  
-  // CHECK THE USERNAME ELEMENT POSITION 
-  if (rect.top < 51) {
-    
-  // SET THE USER STICKY CARD TO VISIBLE
-    userProfileSticky.style.visibility = 'visible'
-    
-  // SET THE USERNAME TO HIDDEN
-    nickname.style.visibility = 'hidden'
-  }else{
-    userProfileSticky.style.visibility = 'hidden'
-    nickname.style.visibility = 'visible'
-
-  } 
-
-}
-
+// FETCH DATA AS THE WEBPAGE LOADS
+window.onload = () => fetchData()
 
 
 // USERNAME
 let fetchedUser = 'iamblackdev'
+
+
 
 // GETTING ELEMENTS FROM THE DOM
 let names = document.querySelectorAll('.name-identifier');
@@ -116,13 +26,12 @@ toogleBtn.addEventListener('click', () => {
   mobileNav.classList.toggle('active')
 })
 
-// OUTPUTING THE USERNAME TO THE DOM 
-usernames.forEach(username => username.innerText = fetchedUser)
+
 
 
 // QUERY FOR GRAPHQL API
 const query = `{
-  repositoryOwner(login: "iamblackdev") {
+  repositoryOwner(login: "${fetchedUser}") {
     ... on User {
       bio
       name
@@ -155,7 +64,7 @@ const query = `{
 
 // HEADER FOR THE API
 const headers = {
-  Authorization: 'bearer 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',
+  Authorization: `bearer ${token}`,
   'Content-type': 'application/json',
 }
 
@@ -176,6 +85,9 @@ let updatedAt, humanTime,
       // DATAS
       .then(fetchedData => {
 
+        // OUTPUTING THE USERNAME TO THE DOM 
+        usernames.forEach(username => username.innerText = fetchedUser)
+        
         // OUTPUTING NAME TO THE DOM 
         names.forEach(names => names.innerText = fetchedData.data.repositoryOwner.name)
           
@@ -263,10 +175,9 @@ let updatedAt, humanTime,
     
   };
 
-fetchData()
   
 
-let getHumanTime = function (vlaue) {
+let getHumanTime = (vlaue) => {
 
   // MONTHS IN SHORT
   const shortMonths = ['', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'July', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
@@ -337,3 +248,100 @@ let getHumanTime = function (vlaue) {
   }
 };
    
+
+
+
+// GET THE BODY ELELMENT
+let body = document.querySelector('body')
+
+// get the details ELEMENT
+let details = document.querySelectorAll('details')
+
+
+// ONCLICK OF THE BODY SET ALLL DETAILS OPEN ATTRIBUTE TO FALSE
+body.addEventListener('click', () => { 
+  details.forEach(e => e.open = false)
+})
+
+
+// SCROLL EVENT ON WINDOWS 
+window.onscroll = () =>  stickyElement()
+
+// GET THE HEADER CLASS ON LARGE SCREEN
+let headerLarge = document.querySelector(".main-header.large")
+
+// GET THE HEADER CLASS ON MOBILE SCREEN
+let headerMobile = document.querySelector(".main-header.mobile");
+
+
+//GET THE USERNAME CLASS
+let nickname = document.querySelector(".nickname");
+
+// GET THE USERPROFILE CARD
+let userProfileSticky = document.querySelector(".user-profile-sticky-bar");
+
+
+// FUNCTION FOR STICKY ELMENTS
+let stickyElement = () => {
+
+
+  // FOR STICKY HEADER ON LARGE SCREEN
+
+  // GET THE HEADER TAG
+  let header = document.querySelector('header').getBoundingClientRect();
+
+
+
+  // CHECK IF THE HEADER IS OFF SCREEN
+  if (header.bottom < -19) {
+    
+    // SET THE MAIN HEADER STICKY
+    headerLarge.classList.add("sticky");
+  } else {
+
+    // REMOVES THE MAIN HEADER STICKY
+    headerLarge.classList.remove("sticky");
+  }
+
+
+  // FOR STICKY HEADER ON MOBILE SCREEN
+
+  // GET THE BOUNDING CLIENT OF TH MAIN HEADER ON MOBILE
+  let stickyHeaderMobile = document.querySelector(".main-header.mobile").getBoundingClientRect();
+
+  // GET THE USER DETAILS ABOVE THE  MAIN HEADER MOBILE
+  let userDetails = document.querySelector(".user-details").getBoundingClientRect();
+
+  // CHECK IF THE MOBILE MAIN HEADER IS AT THE TOP
+  if (stickyHeaderMobile.top < 1) {
+
+    // ADD STICKY CLASS FOR MAIN HEADER MOBILE
+    headerMobile.classList.add("sticky");
+  }
+  if (userDetails.bottom > -19) {
+    headerMobile.classList.remove("sticky"); 
+  }
+   
+  
+
+  // FOR STICKY CARD
+
+  // GET THE USERNAME ELEMENT 
+  let rect = document.querySelector('.nickname').getBoundingClientRect();
+  
+  // CHECK THE USERNAME ELEMENT POSITION 
+  if (rect.top < 51) {
+    
+  // SET THE USER STICKY CARD TO VISIBLE
+    userProfileSticky.classList.add('visible')
+    
+  // SET THE USERNAME TO HIDDEN
+    nickname.classList.add('not-visible')
+  }else{
+    userProfileSticky.classList.remove('visible')
+    nickname.classList.remove('not-visible')
+
+  } 
+
+}
+
