@@ -807,6 +807,9 @@ main .repository-star .btn:hover{
   main .content-container{
     padding: 0 8px;
   }
+  main .user-details{
+    padding: 0 8px;
+  }
   main .repository-star {
     align-self: center;
   }
