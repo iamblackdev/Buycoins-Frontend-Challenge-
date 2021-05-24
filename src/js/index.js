@@ -95,7 +95,6 @@ let updatedAt, humanTime,
       // DATAS
       .then(fetchedData => {
 
-        console.log(fetchedData);
 
         if (fetchedData.data.repositoryOwner && Object.entries(fetchedData.data.repositoryOwner).length !== 0 ) {
 
@@ -227,7 +226,6 @@ let updatedAt, humanTime,
 
 
     }).catch(err => {
-      console.log(err);
       if (err.message === 'Failed to fetch' ) {
         err.message = 'Check your internet connection'
       }
