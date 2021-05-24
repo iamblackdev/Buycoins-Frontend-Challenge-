@@ -2,23 +2,27 @@ import { token } from './token.js'
 
 
 // FETCH DATA AS THE WEBPAGE LOADS
-window.onload = () => fetchData()
+window.onload = () => {
+  formLarge.search.focus()
+  fetchData()
+}
 
 
 // USERNAME
 let fetchedUser = 'iamblackdev'
 
 
-
 // GETTING ELEMENTS FROM THE DOM
 let names = document.querySelectorAll('.name-identifier');
 let bio = document.querySelectorAll('.bio-identifier');
-let avatarUrl = document.querySelectorAll('.avatar-identifier')
+let avatars = document.querySelectorAll('.avatar-identifier')
 let usernames = document.querySelectorAll('.username-identifier')
 let counters = document.querySelectorAll('.counter')
 let repositories = document.querySelector('.repositories-list-identifier')
 let toogleBtn = document.querySelector('#toogleBtn')
 let mobileNav = document.querySelector('.mobile-nav-dropdown')
+let loading = document.querySelector('.loading')
+let errors = document.querySelectorAll('.error-message')
 
 
 //
@@ -27,56 +31,58 @@ toogleBtn.addEventListener('click', () => {
 })
 
 
-
-
-// QUERY FOR GRAPHQL API
-const query = `{
-  repositoryOwner(login: "${fetchedUser}") {
-    ... on User {
-      bio
-      name
-      avatarUrl
-      repositories(first: 20) {
-        totalCount
-        edges {
-          node {
-            name
-            description
-            url
-            forkCount
-            updatedAt
-            parent{
-              isInOrganization
-              nameWithOwner
-              forkCount
-              updatedAt
-
-            }
-            stargazers{
-              totalCount
-            }
-            primaryLanguage{
-              name
-              color
-            }
-          }
-        }
-      }
-    }
-  }
-}`
-
-// HEADER FOR THE API
-const headers = {
-  Authorization: `bearer ${token}`,
-  'Content-type': 'application/json',
-}
-
 // INITIALIZING VARIABLES NEEDED FOR GLOBAL USE
 let updatedAt, humanTime,
 
   // FETCH FUNCTION
-   fetchData = () => {
+  fetchData = () => {
+
+    loading.classList.add('loading-active')
+
+
+
+    // QUERY FOR GRAPHQL API
+    const query = `{
+      repositoryOwner(login: "${fetchedUser}") {
+        ... on User {
+          bio
+          name
+          avatarUrl
+          repositories(first: 20) {
+            totalCount
+            edges {
+              node {
+                name
+                description
+                url
+                forkCount
+                updatedAt
+                parent{
+                  isInOrganization
+                  nameWithOwner
+                  forkCount
+                  updatedAt
+
+                }
+                stargazers{
+                  totalCount
+                }
+                primaryLanguage{
+                  name
+                  color
+                }
+              }
+            }
+          }
+        }
+      }
+    }`
+
+  // HEADER FOR THE API
+  const headers = {
+    Authorization: `bearer ${token}`,
+    'Content-type': 'application/json',
+  }
     
     fetch('https://api.github.com/graphql', {
       method: 'POST',
@@ -89,123 +95,152 @@ let updatedAt, humanTime,
       // DATAS
       .then(fetchedData => {
 
-        // OUTPUTING THE USERNAME TO THE DOM 
-        usernames.forEach(username => username.innerText = fetchedUser)
-        
-        // OUTPUTING NAME TO THE DOM 
-        names.forEach(names => names.innerText = fetchedData.data.repositoryOwner.name)
+        console.log(fetchedData);
+
+        if (fetchedData.data.repositoryOwner && Object.entries(fetchedData.data.repositoryOwner).length !== 0 ) {
+
+          errors.forEach(error => {
+            error.classList.remove('error-active')
+          })
+
+
+          // OUTPUTING THE USERNAME TO THE DOM
+          usernames.forEach(username => username.innerText = fetchedUser)
           
-        // OUTPUTING USERNAME TO THE DOM 
-        bio.forEach(bio => bio.innerText = fetchedData.data.repositoryOwner.bio)
+          // OUTPUTING NAME TO THE DOM 
+          names.forEach(names => names.innerText = fetchedData.data.repositoryOwner.name)
+            
+          // OUTPUTING USERNAME TO THE DOM 
+          bio.forEach(bio => bio.innerText = fetchedData.data.repositoryOwner.bio)
 
-        // OUTPUTING AVATER URL TO THE DOM 
-        avatarUrl.forEach(avatarUrl => avatarUrl.src = fetchedData.data.repositoryOwner.avatarUrl)
+          // OUTPUTING AVATER URL TO THE DOM 
+          avatars.forEach(avatar => {
+            avatar.src = fetchedData.data.repositoryOwner.avatarUrl
+            avatar.alt = `@${fetchedUser}`
+          })
 
-        // OUTPUTING TOTAL REPOSITORIES COUNTER TO THE DOM 
-        counters.forEach(counter => counter.innerText = fetchedData.data.repositoryOwner.repositories.totalCount)
+          // OUTPUTING TOTAL REPOSITORIES COUNTER TO THE DOM 
+          counters.forEach(counter => counter.innerText = fetchedData.data.repositoryOwner.repositories.totalCount)
 
-        // LOOPING THROUGH THE REPOSITORIES ARRAY AND OUTPUTING EACH REPOSITORY
-        fetchedData.data.repositoryOwner.repositories.edges.forEach(repository => (
+          // CLEARING THE ALREADY OUTPUTED REPOSITORIES
+          repositories.innerHTML = ''
 
-          
-          repositories.innerHTML +=
-          `<li>
-            <div class="repository-details">
-              <h3><a href=${repository.node.url}>${repository.node.name}</a></h3>
+          // LOOPING THROUGH THE REPOSITORIES ARRAY AND OUTPUTING EACH REPOSITORY
+          fetchedData.data.repositoryOwner.repositories.edges.forEach(repository => (
 
-              ${repository.node.parent ?
-                `
-                <span class="forked-from">
-                Forked from <a href="#"> ${repository.node.parent.nameWithOwner}</a>  
-                </span>
-               ` : ''
-              }
+            repositories.innerHTML +=
+            `<li>
+              <div class="repository-details">
+                <h3><a href=${repository.node.url}>${repository.node.name}</a></h3>
 
-              <p class="description">${repository.node.description ? repository.node.description : ''}</p>
-              <div class="language-and-timestamp">      
-              ${repository.node.primaryLanguage ?
-                `
-                <span class="repo-language">
-                  <span class="language-color" style="background-color: ${repository.node.primaryLanguage.color}";></span>  
-                  <span class="programming-language" > ${repository.node.primaryLanguage.name} </span>
-                </span>
-                ` : ''
-              }
-
-              ${repository.node.stargazers.totalCount ?
+                ${repository.node.parent ?
                   `
-                <a class="star-count" href="#">
-                  <svg aria-label="star" class="octicon octicon-star" viewBox="0 0 16 16" version="1.1" width="16" height="16" role="img"><path fill-rule="evenodd" d="M8 .25a.75.75 0 01.673.418l1.882 3.815 4.21.612a.75.75 0 01.416 1.279l-3.046 2.97.719 4.192a.75.75 0 01-1.088.791L8 12.347l-3.766 1.98a.75.75 0 01-1.088-.79l.72-4.194L.818 6.374a.75.75 0 01.416-1.28l4.21-.611L7.327.668A.75.75 0 018 .25zm0 2.445L6.615 5.5a.75.75 0 01-.564.41l-3.097.45 2.24 2.184a.75.75 0 01.216.664l-.528 3.084 2.769-1.456a.75.75 0 01.698 0l2.77 1.456-.53-3.084a.75.75 0 01.216-.664l2.24-2.183-3.096-.45a.75.75 0 01-.564-.41L8 2.694v.001z"></path></svg>
-                  ${repository.node.stargazers.totalCount}
-                </a>
-
+                  <span class="forked-from">
+                  Forked from <a href="#"> ${repository.node.parent.nameWithOwner}</a>  
+                  </span>
                 ` : ''
-              }
-
-              ${repository.node.parent ?
-                `
-                ${repository.node.parent.forkCount ? 
-                  `
-                  <a class="fork-count" href="#">
-                    <svg aria-label="fork" class="octicon octicon-repo-forked" viewBox="0 0 16 16" version="1.1" width="16" height="16" role="img"><path fill-rule="evenodd" d="M5 3.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm0 2.122a2.25 2.25 0 10-1.5 0v.878A2.25 2.25 0 005.75 8.5h1.5v2.128a2.251 2.251 0 101.5 0V8.5h1.5a2.25 2.25 0 002.25-2.25v-.878a2.25 2.25 0 10-1.5 0v.878a.75.75 0 01-.75.75h-4.5A.75.75 0 015 6.25v-.878zm3.75 7.378a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm3-8.75a.75.75 0 100-1.5.75.75 0 000 1.5z"></path></svg> 
-                    ${repository.node.parent.forkCount}
-                  </a>
-                  `: ''
                 }
 
-                ${repository.node.parent.isInOrganization ? 
+                <p class="description">${repository.node.description ? repository.node.description : ''}</p>
+                <div class="language-and-timestamp">      
+                ${repository.node.primaryLanguage ?
                   `
-                  <span class="timestamp">
-                    ${getHumanTime(repository.node.parent.updatedAt)}
+                  <span class="repo-language">
+                    <span class="language-color" style="background-color: ${repository.node.primaryLanguage.color}";></span>  
+                    <span class="programming-language" > ${repository.node.primaryLanguage.name} </span>
                   </span>
-                  `:
+                  ` : ''
+                }
+
+                ${repository.node.stargazers.totalCount ?
+                    `
+                  <a class="star-count" href="#">
+                    <svg aria-label="star" class="octicon octicon-star" viewBox="0 0 16 16" version="1.1" width="16" height="16" role="img"><path fill-rule="evenodd" d="M8 .25a.75.75 0 01.673.418l1.882 3.815 4.21.612a.75.75 0 01.416 1.279l-3.046 2.97.719 4.192a.75.75 0 01-1.088.791L8 12.347l-3.766 1.98a.75.75 0 01-1.088-.79l.72-4.194L.818 6.374a.75.75 0 01.416-1.28l4.21-.611L7.327.668A.75.75 0 018 .25zm0 2.445L6.615 5.5a.75.75 0 01-.564.41l-3.097.45 2.24 2.184a.75.75 0 01.216.664l-.528 3.084 2.769-1.456a.75.75 0 01.698 0l2.77 1.456-.53-3.084a.75.75 0 01.216-.664l2.24-2.183-3.096-.45a.75.75 0 01-.564-.41L8 2.694v.001z"></path></svg>
+                    ${repository.node.stargazers.totalCount}
+                  </a>
+
+                  ` : ''
+                }
+
+                ${repository.node.parent ?
                   `
+                  ${repository.node.parent.forkCount ? 
+                    `
+                    <a class="fork-count" href="#">
+                      <svg aria-label="fork" class="octicon octicon-repo-forked" viewBox="0 0 16 16" version="1.1" width="16" height="16" role="img"><path fill-rule="evenodd" d="M5 3.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm0 2.122a2.25 2.25 0 10-1.5 0v.878A2.25 2.25 0 005.75 8.5h1.5v2.128a2.251 2.251 0 101.5 0V8.5h1.5a2.25 2.25 0 002.25-2.25v-.878a2.25 2.25 0 10-1.5 0v.878a.75.75 0 01-.75.75h-4.5A.75.75 0 015 6.25v-.878zm3.75 7.378a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm3-8.75a.75.75 0 100-1.5.75.75 0 000 1.5z"></path></svg> 
+                      ${repository.node.parent.forkCount}
+                    </a>
+                    `: ''
+                  }
+
+                  ${repository.node.parent.isInOrganization ? 
+                    `
+                    <span class="timestamp">
+                      ${getHumanTime(repository.node.parent.updatedAt)}
+                    </span>
+                    `:
+                    `
+                    <span class="timestamp">
+                      ${getHumanTime(repository.node.updatedAt)}
+                    </span> 
+                    `
+                  }
+
+                  ` :
+              
+                  `
+                  ${repository.node.forkCount ? 
+                    `
+                    <a class="fork-count" href="#">
+                      <svg aria-label="fork" class="octicon octicon-repo-forked" viewBox="0 0 16 16" version="1.1" width="16" height="16" role="img"><path fill-rule="evenodd" d="M5 3.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm0 2.122a2.25 2.25 0 10-1.5 0v.878A2.25 2.25 0 005.75 8.5h1.5v2.128a2.251 2.251 0 101.5 0V8.5h1.5a2.25 2.25 0 002.25-2.25v-.878a2.25 2.25 0 10-1.5 0v.878a.75.75 0 01-.75.75h-4.5A.75.75 0 015 6.25v-.878zm3.75 7.378a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm3-8.75a.75.75 0 100-1.5.75.75 0 000 1.5z"></path></svg> 
+                      ${repository.node.forkCount}
+                    </a>
+                    `: ''
+                  }
+
                   <span class="timestamp">
                     ${getHumanTime(repository.node.updatedAt)}
-                  </span> 
+                  </span>
+
                   `
                 }
-
-                ` :
-            
-                `
-                ${repository.node.forkCount ? 
-                  `
-                  <a class="fork-count" href="#">
-                    <svg aria-label="fork" class="octicon octicon-repo-forked" viewBox="0 0 16 16" version="1.1" width="16" height="16" role="img"><path fill-rule="evenodd" d="M5 3.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm0 2.122a2.25 2.25 0 10-1.5 0v.878A2.25 2.25 0 005.75 8.5h1.5v2.128a2.251 2.251 0 101.5 0V8.5h1.5a2.25 2.25 0 002.25-2.25v-.878a2.25 2.25 0 10-1.5 0v.878a.75.75 0 01-.75.75h-4.5A.75.75 0 015 6.25v-.878zm3.75 7.378a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm3-8.75a.75.75 0 100-1.5.75.75 0 000 1.5z"></path></svg> 
-                    ${repository.node.forkCount}
-                  </a>
-                  `: ''
-                }
-
-                <span class="timestamp">
-                  ${getHumanTime(repository.node.updatedAt)}
-                </span>
-
-                `
-              }
+                    
                   
-                
+                </div>
               </div>
-            </div>
 
-            <div class="repository-star">
-              <button class="btn">
-                <svg class="octicon octicon-star" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M8 .25a.75.75 0 01.673.418l1.882 3.815 4.21.612a.75.75 0 01.416 1.279l-3.046 2.97.719 4.192a.75.75 0 01-1.088.791L8 12.347l-3.766 1.98a.75.75 0 01-1.088-.79l.72-4.194L.818 6.374a.75.75 0 01.416-1.28l4.21-.611L7.327.668A.75.75 0 018 .25zm0 2.445L6.615 5.5a.75.75 0 01-.564.41l-3.097.45 2.24 2.184a.75.75 0 01.216.664l-.528 3.084 2.769-1.456a.75.75 0 01.698 0l2.77 1.456-.53-3.084a.75.75 0 01.216-.664l2.24-2.183-3.096-.45a.75.75 0 01-.564-.41L8 2.694v.001z"></path></svg>Star
-              </button>
-            </div>
-          </li>
-          `
-      ))
-    
+              <div class="repository-star">
+                <button class="btn">
+                  <svg class="octicon octicon-star" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M8 .25a.75.75 0 01.673.418l1.882 3.815 4.21.612a.75.75 0 01.416 1.279l-3.046 2.97.719 4.192a.75.75 0 01-1.088.791L8 12.347l-3.766 1.98a.75.75 0 01-1.088-.79l.72-4.194L.818 6.374a.75.75 0 01.416-1.28l4.21-.611L7.327.668A.75.75 0 018 .25zm0 2.445L6.615 5.5a.75.75 0 01-.564.41l-3.097.45 2.24 2.184a.75.75 0 01.216.664l-.528 3.084 2.769-1.456a.75.75 0 01.698 0l2.77 1.456-.53-3.084a.75.75 0 01.216-.664l2.24-2.183-3.096-.45a.75.75 0 01-.564-.41L8 2.694v.001z"></path></svg>Star
+                </button>
+              </div>
+            </li>
+            `
+          ))
+      
+          loading.classList.remove('loading-active')
+          
+        } else {
+          throw new Error('oops🤭, wrong username.')
+        }
+        
 
 
     }).catch(err => {
-     console.log(err);
+      console.log(err);
+      if (err.message === 'Failed to fetch' ) {
+        err.message = 'Check your internet connection'
+      }
+      loading.classList.remove('loading-active')
+      errors.forEach(error => {
+        error.classList.add('error-active')
+        error.innerText = err.message
+      })
     })
   
     
   };
+
 
   
 
@@ -377,3 +412,22 @@ let stickyElement = () => {
 
 }
 
+// GETTING THE INPUT FORM ON LARGE SCREEN
+let formLarge = document.forms.searchInput
+// console.log(form.search.value);
+formLarge.addEventListener("submit", (e)  => {
+  e.preventDefault()
+  fetchedUser = formLarge.search.value
+  formLarge.search.value = ''
+  fetchData()
+})
+
+//GETTING THE INPUT FORM ON MOBILE
+let formMobile = document.forms.searchMobile
+
+formMobile.addEventListener("submit", (e) => {
+  e.preventDefault()
+  fetchedUser = formMobile.search.value
+  formMobile.search.value = ''
+  fetchData()
+})
