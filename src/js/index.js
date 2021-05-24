@@ -96,7 +96,7 @@ let updatedAt, humanTime,
       .then(fetchedData => {
 
 
-        if (fetchedData.data.repositoryOwner && Object.entries(fetchedData.data.repositoryOwner).length !== 0 ) {
+        if (!(fetchedData.errors) && fetchedData.data.repositoryOwner && Object.entries(fetchedData.data.repositoryOwner).length !== 0) {
 
           errors.forEach(error => {
             error.classList.remove('error-active')
