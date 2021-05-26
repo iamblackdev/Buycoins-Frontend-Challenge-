@@ -290,7 +290,6 @@ let getHumanTime = vlaue => {
     days === 1
       ? (days = `Updated yesterday`)
       : (days = `Updated ${days} days ago`);
-    // days = new Date(value).getDay();
     return days;
   }
 
