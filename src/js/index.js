@@ -40,7 +40,7 @@ let updatedAt,
           bio
           name
           avatarUrl
-          repositories(first: 20 orderBy:{ field: PUSHED_AT, direction: DESC,}
+          repositories(first: 40 orderBy:{ field: PUSHED_AT, direction: DESC,}
             ownerAffiliations:OWNER) {
             totalCount
             edges {
@@ -189,23 +189,7 @@ let updatedAt,
                     </a>
                     `
                       : ""
-                  }
-
-                  ${
-                    repository.node.parent.isInOrganization
-                      ? `
-                    <span class="timestamp">
-                      ${getHumanTime(repository.node.parent.pushedAt)}
-                    </span>
-                    `
-                      : `
-                    <span class="timestamp">
-                      ${getHumanTime(repository.node.pushedAt)}
-                    </span> 
-                    `
-                  }
-
-                  `
+                  } `
                     : `
                   ${
                     repository.node.forkCount
@@ -218,12 +202,11 @@ let updatedAt,
                       : ""
                   }
 
-                  <span class="timestamp">
-                    ${getHumanTime(repository.node.pushedAt)}
-                  </span>
-
                   `
                 }
+                <span class="timestamp">
+                    ${getHumanTime(repository.node.pushedAt)}
+                  </span>
                     
                   
                 </div>
