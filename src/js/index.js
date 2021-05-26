@@ -40,7 +40,7 @@ let updatedAt,
           bio
           name
           avatarUrl
-          repositories(first: 40 orderBy:{ field: PUSHED_AT, direction: DESC,}
+          repositories(first: 20 orderBy:{ field: PUSHED_AT, direction: DESC,}
             ownerAffiliations:OWNER) {
             totalCount
             edges {
