@@ -127,6 +127,19 @@ button{
 .error-active{
   display: block;
 }
+.private-label{
+  display: inline-block;
+  padding: 0 7px;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 18px;
+  border-radius: 2em;
+  background-color: initial!important;
+  border: 1px solid transparent;
+  color: #586069;
+  border: 1px solid var(--color-border-primary);
+  margin-left: 4px;
+}
 
 
 
@@ -383,7 +396,7 @@ header .user-status:hover svg{
 
 /* CARD */
 main .main-header{
-  margin-top: 24px;
+  margin-top: 16px;
   border-bottom: 1px solid #e1e4e8;
 }
 main .main-header.large.sticky{
