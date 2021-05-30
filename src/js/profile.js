@@ -2,7 +2,6 @@ import { token } from "./token.js";
 
 // FETCH DATA AS THE WEBPAGE LOADS
 window.onload = () => {
-  // formLarge.search.focus();
   fetchData();
 };
 

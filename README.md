@@ -7,4 +7,4 @@
 export const token = 'YOUR_TOKEN'.
 ```
 - Run the project
-- To search for new user use the search bar on the header.
+- To search for new user use search bar in the home page or the search bar in the header.
