@@ -2,12 +2,13 @@ import { token } from "./token.js";
 
 // FETCH DATA AS THE WEBPAGE LOADS
 window.onload = () => {
-  formLarge.search.focus();
+  // formLarge.search.focus();
   fetchData();
 };
 
 // USERNAME
-let fetchedUser = "iamblackdev";
+let sotredUsername = localStorage.getItem("userName");
+let fetchedUser = sotredUsername ? sotredUsername : "iamblackdev";
 
 // GETTING ELEMENTS FROM THE DOM
 let names = document.querySelectorAll(".name-identifier");

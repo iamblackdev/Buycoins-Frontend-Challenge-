@@ -1,0 +1,128 @@
+* {
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  overflow-x: hidden;
+}
+
+main {
+  width: 100%;
+  height: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+main .heading {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+main .heading .octicon {
+  fill: #24292e;
+}
+
+main .heading p {
+  color: #24292e;
+  font-size: 1.5rem;
+}
+
+main .card {
+  width: 25%;
+  background: #f6f8fa;
+  border: 1px solid rgba(139, 139, 139, 0.329);
+  border-radius: 8px;
+  
+}
+form{
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  padding: 20px;
+  font-size: 1rem;
+}
+@media (max-width: 874px) {
+  main .card {
+    width: 50%;
+  }
+}
+
+@media (max-width: 425px) {
+  main .card {
+    width: 80%;
+  }
+}
+
+
+main .card .input {
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+}
+
+main .card .input label {
+  color: #24292e;
+}
+
+main .card .input input {
+  width: 100%;
+  height: 2.2em;
+  outline: none;
+  border-radius: 6px;
+  border: 1px solid rgba(139, 139, 139, 0.329);
+  padding: 0 1em;
+  margin-top: 1em;
+}
+
+main .card .submit_username {
+  margin-top: 1em;
+  background: #2ea44f;
+  border: 1px solid rgba(139, 139, 139, 0.329);
+  height: 2.2em;
+  border-radius: 6px;
+  color: #fff;
+  cursor: pointer;
+  -webkit-transition: 0.3s ease-in-out;
+  transition: 0.3s ease-in-out;
+}
+
+main .card .submit_username:hover {
+  background: #22853e;
+}
